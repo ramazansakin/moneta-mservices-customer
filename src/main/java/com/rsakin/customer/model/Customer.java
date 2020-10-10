@@ -1,5 +1,6 @@
 package com.rsakin.customer.model;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 
 @Data
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "customer")
 public class Customer {

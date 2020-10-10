@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -55,12 +56,18 @@ public class CustomerController {
 
     @GetMapping("/{id}/credit-availability")
     public Mono<ResponseEntity<Map<String, String>>> getCustomerCreditAvailabilityStatus(@PathVariable Long id) {
-        WebClient webClient = WebClient.create("https://localhost:8091");
+        // Credit Service
+        WebClient webClient = WebClient.create("https://localhost:8091/credits");
 
-        Mono<CreditStatusResponse> creditStatusResponseMono = webClient.get()
-                .uri("/credit-status/" + id)
-                .retrieve()
-                .bodyToMono(CreditStatusResponse.class);
+        Mono<ResponseEntity<Customer>> byId = getById(id);
+
+        Mono<CreditStatusResponse> creditStatusResponseMono =
+                webClient
+                        .post()
+                        .uri("/credit-status/" + id)
+                        .body(Objects.requireNonNull(byId.block().getBody()), Customer.class)
+                        .retrieve()
+                        .bodyToMono(CreditStatusResponse.class);
 
         Boolean status = creditStatusResponseMono.block().getStatus();
         Map<String, String> resultMap = new HashMap<>();
@@ -69,8 +76,7 @@ public class CustomerController {
         resultMap.put("Cause",
                 (status.equals(Boolean.TRUE) ? creditStatusResponseMono.block().getCreditLimit().toString() : "0"));
 
-        return Mono.just(resultMap)
-                .map(ResponseEntity::ok);
+        return Mono.just(resultMap).map(ResponseEntity::ok);
     }
 
 
