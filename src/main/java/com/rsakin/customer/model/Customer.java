@@ -1,18 +1,13 @@
 package com.rsakin.customer.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
 
 @Data
 @NoArgsConstructor
-@Builder
-@Entity
-@Table(name = "customer")
+@AllArgsConstructor
 public class Customer {
 
     @Id
