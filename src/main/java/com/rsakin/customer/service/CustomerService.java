@@ -1,8 +1,11 @@
 package com.rsakin.customer.service;
 
 import com.rsakin.customer.model.Customer;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 public interface CustomerService {
 
@@ -15,5 +18,7 @@ public interface CustomerService {
     Mono<Customer> deleteById(Long id);
 
     Mono<Customer> update(Long id, Customer customer);
+
+    Mono<ResponseEntity<Map<String, String>>> getCustomerCreditAvailabilityStatus(Long id);
 
 }
