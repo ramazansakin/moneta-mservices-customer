@@ -1,24 +1,9 @@
+server:
+  port: 8090
 spring:
-  profiles:
-    active: dev
----
-spring:
-  profiles: dev
+  application:
+    name: customer-service
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/customerdb
-    username: postgres
-    password: pass
-
-logging:
-  level:
-    org.springframework.data.r2dbc: Debug
-
-
-
----
-spring:
-  profiles: docker
-  r2dbc:
-    url: r2dbc:postgresql://localhost:5432/customerdb
+    url: r2dbc:postgresql://postgresql:5432/customerdb
     username: postgres
     password: pass
