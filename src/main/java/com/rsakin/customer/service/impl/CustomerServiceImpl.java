@@ -22,6 +22,8 @@ import java.util.Map;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    // Credit Service
+    private WebClient webClient = WebClient.create("http://192.168.1.101:8091/credits");
 
     @Override
     public Mono<Customer> getById(Long id) {
@@ -61,9 +63,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<ResponseEntity<Map<String, String>>> getCustomerCreditAvailabilityStatus(Long id) {
-        // Credit Service
-        WebClient webClient = WebClient.create("http://192.168.1.101:8091/credits");
-
         return customerRepository.findById(id)
                 .flatMap(
                         customer -> webClient
