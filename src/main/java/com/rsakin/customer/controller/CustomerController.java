@@ -20,17 +20,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/customer")
 @Api(value = "Customer Controller REST Endpoints")
+@ApiResponses(
+        value = {
+                @ApiResponse(code = 400, message = "Bad Request"),
+                @ApiResponse(code = 200, message = "Successful"),
+                @ApiResponse(code = 404, message = "Not Found")
+        }
+)
 public class CustomerController {
 
     private final CustomerService customerService;
 
     @ApiOperation(value = "Returns a customer wrapped via Mono")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(code = 400, message = "Bad Request"),
-                    @ApiResponse(code = 200, message = "Successful")
-            }
-    )
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Customer>> getById(@PathVariable Long id) {
         return customerService.getById(id)
